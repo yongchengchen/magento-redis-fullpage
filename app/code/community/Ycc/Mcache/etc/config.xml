@@ -1,0 +1,83 @@
+<config>
+    <modules>
+        <Ycc_Mcache>
+            <version>0.1.0</version>
+        </Ycc_Mcache>
+    </modules>
+    <global>
+        <blocks>
+        	  <ycc_mcache>
+        	  	<class>Ycc_Mcache_Block</class>
+        	  </ycc_mcache>>
+        </blocks>
+        <helpers>
+        	  <ycc_mcache>
+        	  	<class>Ycc_Mcache_Helper</class>
+        	  </ycc_mcache>
+        </helpers>
+	<models>
+		<core>
+			<rewrite>
+				<layout>Ycc_Mcache_Model_Layout</layout>
+			</rewrite>
+		</core>
+		<ycc_mcache>
+                        <class>Ycc_Mcache_Model</class>
+                </ycc_mcache>
+	</models>
+    </global>
+
+    <admin>
+	<routers>
+	     <redis module="redis">
+		<use>admin</use>
+		<args>
+		    <module>Ycc_Mcache</module>
+		    <frontName>redis</frontName>
+		</args>
+	    </redis>
+	</routers>
+    </admin>
+
+    <frontend>
+        <routers>
+            <mcache>
+                <use>standard</use>
+                <args>
+                    <module>Ycc_Mcache</module>
+                    <frontName>mcache</frontName>
+                </args>
+            </mcache>
+        </routers>
+
+        <layout>
+            <updates>
+                <yccmcache>
+                    <file>yccmcache.xml</file>
+                </yccmcache>
+            </updates>
+        </layout>
+
+
+	<events>
+		<http_response_send_before>
+			<observers>
+				<ycc_mcache_observer>
+					<type>singleton</type>
+					<class>ycc_mcache/observer</class>
+					<method>cacheResponse</method>
+				</ycc_mcache_observer>
+			</observers>
+		</http_response_send_before>
+	</events>
+    </frontend>
+
+    <crontab>
+        <jobs>
+            <ycc_mcache_cleanrediscache>
+                <schedule><cron_expr>0 8 10 * *</cron_expr></schedule>
+                <run><model>ycc_mcache/observer::CronCleanRedisCache</model></run>
+            </ycc_mcache_cleanrediscache>
+        </jobs>
+    </crontab>
+</config>
