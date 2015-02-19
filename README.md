@@ -1,5 +1,18 @@
 # magento-redis-fullpage
 
+Why this module?
+
+As we know magento already have fullpage cache functionality, and also there is many other fullpage modules base on redis and other memory cache, but why I still develop this module?
+
+1. shortage of magento fullpage cache and other memory cache solution
+	Magento fullpage cache for every page cached, for every request, still need to inital magento instance
+	For some pages,they can not cache whole page, they only cache some blocks, and combine all these blocks, they also need to inital magento instance
+	Initaling magento instance comsume a lot of resouces
+	
+	Other memory cache system, such as Varnish is very complicated
+
+	
+
 1. all page has only one key in redis,easy to manage every page
 		key							value[encrypted]
 	www.exmple.com/index.html 		html characters
@@ -11,6 +24,9 @@
 4. for some blocks, use async call to update special blocks
 
 5. blocks can just be update by some event
+
+6. you can see which page is stored, and you can just flush what page you want
+
 
 6. Before using it
 	1) You should already install redis server, if you don't know what's redis, please don't install it
