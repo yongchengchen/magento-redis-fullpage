@@ -53,12 +53,11 @@ As we know magento already have fullpage cache functionality, and also there is 
 		
 		II) Cache White List
 		
-	3) setting some blocks as aysnc block
+	3) setting some blocks as aysnc block. Put defer="1" in block element
 	
 	for example: Home page account_login block in customer.xml
 	
-	
-	<customer_account_login translate="label">
+        <customer_account_login translate="label">
             <label>Customer Account Login Form</label>
             <!-- Mage_Customer -->
             <remove name="right"/>
