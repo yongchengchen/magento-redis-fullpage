@@ -29,18 +29,47 @@ As we know magento already have fullpage cache functionality, and also there is 
 
 
 6. Before using it
+
 	1) You should already install redis server, if you don't know what's redis, please don't install it
+
 	2) create your redis db instance
+	
 	3) config redis for fullpage cache
+	
 
 7. How to use
+
 	1) you should edit index.php file
+	
 	open index.php, and insert this line before Mage::run($mageRunCode, $mageRunType);
+	
 		require(MAGENTO_ROOT . '/lib/Credis/cache.php');
 
 	2) go to magento backend, and go to "configuration"->"ADVANCED"->"Developer"->"Redis Full Page Cache"
+	
 		There are some tags:
+		
 		I) Cache Static Page(.html)
+		
 		II) Cache White List
+		
 	3) setting some blocks as aysnc block
+	
+	for example: Home page account_login block in customer.xml
+	
+	
+	<customer_account_login translate="label">
+            <label>Customer Account Login Form</label>
+            <!-- Mage_Customer -->
+            <remove name="right"/>
+            <remove name="left"/>
+
+            <reference name="root">
+                <action method="setTemplate"><template>page/1column.phtml</template></action>
+            </reference>
+            <reference name="content">
+                <block type="customer/form_login" name="customer_form_login" template="customer/form/login.phtml" defer="1"/>
+            </reference>
+        </customer_account_login>
+
 	
